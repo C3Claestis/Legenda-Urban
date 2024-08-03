@@ -6,25 +6,25 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float speed = 6.0f;
-    [SerializeField] Transform cam;
+    [SerializeField] Transform cam;  // Kamera
+    [SerializeField] Transform body; // Badan Pemain
+    [SerializeField] float mouseSensitivity = 2.0f;
     private float gravity = -9.81f;
-    private float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
     private CharacterController characterController;
-    private Animator animator;
+
     private Vector3 velocity;
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
+    private float xRotation = 0f;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
 
         // Initialize input actions
         inputActions = new PlayerInputActions();
 
-        // Mengunci cursor ke tengah layar dan membuatnya tidak terlihat
+        // Lock the cursor to the center of the screen and hide it
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Calculate the movement direction
+        // Calculate movement direction
         Vector3 move = CalculateMovementDirection(moveInput.x, moveInput.y);
 
         // Apply gravity
@@ -55,41 +55,53 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        // Apply gravity if not grounded
         velocity.y += gravity * Time.deltaTime;
 
         // Apply movement and gravity
         characterController.Move((move * speed + velocity) * Time.deltaTime);
 
-        // Handle animation
-        AnimationHandle(move);
+        // Handle camera and body rotation
+        HandleCameraRotation();
     }
 
     Vector3 CalculateMovementDirection(float moveHorizontal, float moveVertical)
     {
-        // Calculate the desired move direction
-        Vector3 move = new Vector3(moveHorizontal, 0, moveVertical).normalized;
+        // Calculate camera's forward and right directions
+        Vector3 camForward = cam.forward;
+        Vector3 camRight = cam.right;
 
-        if (move.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        // Flatten the camera's forward vector (ignore the y component)
+        camForward.y = 0f;
+        camForward.Normalize();
+        camRight.y = 0f;
+        camRight.Normalize();
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            return moveDir.normalized;
-        }
+        // Calculate the desired move direction relative to the camera
+        Vector3 move = camForward * moveVertical + camRight * moveHorizontal;
 
-        return Vector3.zero;
+        return move.normalized;
     }
-    void AnimationHandle(Vector3 move)
+
+    void HandleCameraRotation()
     {
-        // Check if the player is moving
-        bool isMoving = move.magnitude > 0;
+        // Get mouse input for camera rotation
+        float mouseX = Mouse.current.delta.x.ReadValue() * mouseSensitivity * Time.deltaTime;
+        float mouseY = Mouse.current.delta.y.ReadValue() * mouseSensitivity * Time.deltaTime;
 
-        // Set the "IsWalking" parameter in the Animator to the value of isMoving
-        animator.SetBool("IsWalking", isMoving);
+        // Update vertical camera rotation (pitch)
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        // Update horizontal body rotation (yaw)
+        float yRotation = cam.eulerAngles.y;
+        body.rotation = Quaternion.Euler(0f, yRotation, 0f);
+
+        // Debug logs to check values
+        Debug.Log($"Camera Y Rotation: {yRotation}");
+        Debug.Log($"Body Rotation: {body.rotation.eulerAngles}");
     }
+
     void OnMovePerformed(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
