@@ -103,10 +103,6 @@ public class PlayerMovement : MonoBehaviour
         // Get the horizontal axis value from the Cinemachine POV component
         float yRotation = povComponent.m_HorizontalAxis.Value;
         body.rotation = Quaternion.Euler(0f, yRotation, 0f);
-
-        // Debug logs to check values
-        Debug.Log($"Camera Y Rotation: {yRotation}");
-        Debug.Log($"Body Rotation: {body.rotation.eulerAngles}");
     }
 
     void OnMovePerformed(InputAction.CallbackContext context)
