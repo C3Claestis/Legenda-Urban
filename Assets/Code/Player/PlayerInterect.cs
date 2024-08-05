@@ -4,12 +4,12 @@ using TMPro;
 
 public class PlayerInteract : MonoBehaviour
 {
-    [Range(0.1f, 20.0f)][SerializeField] private float direction = 10.0f;
-    [SerializeField] private LayerMask layer;
-    [SerializeField] private Transform cam; // Referensi ke Kamera
-    [SerializeField] private GameObject crosshair;
-    [SerializeField] private TextMeshProUGUI textMesh;
-    public Transform grab;
+    [Header("Jangkauan Raycast")][Range(0.1f, 5.0f)][SerializeField] private float direction = 2.5f;
+    [Header("Layer Raycast")][SerializeField] private LayerMask layer;
+    [Header("Camera Referensi")][SerializeField] private Transform cam; // Referensi ke Kamera
+    [Header("Crosshair Raycast")][SerializeField] private GameObject crosshair;
+    [Header("Text Object Raycast")][SerializeField] private TextMeshProUGUI textMesh;
+    [Header("Referensi Grab Raycast")] [SerializeField] Transform grab;
     private PlayerInputActions inputActions;
     private InteractionManager interactionManager;
 
@@ -17,7 +17,7 @@ public class PlayerInteract : MonoBehaviour
     {
         // Inisialisasi input actions
         inputActions = new PlayerInputActions();
-        interactionManager = new InteractionManager(direction, layer, cam, crosshair, textMesh, this);
+        interactionManager = new InteractionManager(direction, layer, cam, crosshair, textMesh, this, grab);
         SetInteractionManager(interactionManager);
         interactionManager.SetPlayerInteract(this);
     }

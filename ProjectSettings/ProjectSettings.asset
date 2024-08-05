@@ -763,7 +763,7 @@ PlayerSettings:
   m_RenderingPath: 3
   m_MobileRenderingPath: 1
   metroPackageName: Legenda-Urban
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -771,7 +771,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Legenda-Urban
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Legenda-Urban
   metroTileShowName: 1
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

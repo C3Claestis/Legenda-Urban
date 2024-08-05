@@ -9,10 +9,11 @@ public class InteractionManager
     private GameObject crosshair;
     private TextMeshProUGUI textMesh;
     private GrabObject currentGrabObject;
+    private Transform grab;
     private bool canGrab;
     private PlayerInteract playerInteract;
 
-    public InteractionManager(float direction, LayerMask layer, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract)
+    public InteractionManager(float direction, LayerMask layer, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
     {
         this.direction = direction;
         this.layer = layer;
@@ -20,6 +21,7 @@ public class InteractionManager
         this.cam = cam;
         this.textMesh = textMesh;
         this.playerInteract = playerInteract;
+        this.grab = grab;
     }
 
     public void PerformRaycast()
@@ -59,21 +61,29 @@ public class InteractionManager
 
     public void HandleInteract()
     {
-        if (canGrab && currentGrabObject != null)
+        if (grab.childCount == 0)
         {
-            currentGrabObject.ToggleGrab();
-            if (currentGrabObject.isGrab)
+            if (canGrab && currentGrabObject != null)
             {
-                crosshair.SetActive(false);
-                textMesh.gameObject.SetActive(false);
-            }
-            else
-            {
-                crosshair.SetActive(true);
-                textMesh.gameObject.SetActive(true);
+                currentGrabObject.ToggleGrab();
+                if (currentGrabObject.isGrab)
+                {
+                    crosshair.SetActive(false);
+                    textMesh.gameObject.SetActive(false);
+                }
             }
         }
+        else
+        {
+            //Membuat local dari object yang ada didalam grab
+            GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
+            getObjekInGrab.ToggleGrab();
+
+            crosshair.SetActive(true);
+            textMesh.gameObject.SetActive(true);
+        }
     }
+
     public void SetPlayerInteract(PlayerInteract playerInteract)
     {
         this.playerInteract = playerInteract;

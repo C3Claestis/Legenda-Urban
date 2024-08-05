@@ -37,6 +37,7 @@ public class GrabObject : MonoBehaviour
         }
         else if (!isGrab)
         {
+            isCanGrab = false;
             transform.parent = null;
         }
     }
