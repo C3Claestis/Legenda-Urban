@@ -5,6 +5,7 @@ public class InteractionManager
 {
     private float direction;
     private LayerMask layer;
+    private LayerMask layerInteract;
     private Transform cam;
     private GameObject crosshair;
     private TextMeshProUGUI textMesh;
@@ -13,10 +14,11 @@ public class InteractionManager
     private bool canGrab;
     private PlayerInteract playerInteract;
 
-    public InteractionManager(float direction, LayerMask layer, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
+    public InteractionManager(float direction, LayerMask layer, LayerMask layerInteract, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
     {
         this.direction = direction;
         this.layer = layer;
+        this.layerInteract = layerInteract;
         this.crosshair = crosshair;
         this.cam = cam;
         this.textMesh = textMesh;
@@ -46,6 +48,7 @@ public class InteractionManager
         if (Physics.Raycast(ray, out hit, direction, layer))
         {
             GrabObject grabObject = hit.collider.GetComponent<GrabObject>();
+
             if (grabObject != null)
             {
                 textMesh.text = hit.collider.name;
@@ -55,6 +58,27 @@ public class InteractionManager
 
                 // Mengatur referensi grabObject dengan transform grab dari PlayerInteract
                 playerInteract.SetGrabReference(grabObject);
+            }
+        }
+
+        if (Physics.Raycast(ray, out hit, direction, layerInteract))
+        {
+            Transform NPCAction = hit.collider.GetComponent<Transform>();
+
+            if (NPCAction != null)
+            {
+                if (Input.GetKey(KeyCode.O))
+                {
+                    Debug.Log("INTERKSI");
+                    cam.gameObject.SetActive(false);
+                    Transform shop = GameObject.Find("Shop").GetComponent<Transform>();
+                    foreach (Transform child in shop.GetComponentInChildren<Transform>())
+                    {
+                        child.gameObject.SetActive(true);
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
+                }
             }
         }
     }

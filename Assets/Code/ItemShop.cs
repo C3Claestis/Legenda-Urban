@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemShop : MonoBehaviour
+[System.Serializable]
+public class ItemShop
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Sprite itemIcon;
+    public string itemName;
+    public int itemPrice;
+    public Sprite goldIcon;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Anda bisa menambahkan atribut lain sesuai kebutuhan
 }
