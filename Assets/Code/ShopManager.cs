@@ -5,19 +5,20 @@ using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
-    public List<ItemShop> availableItems;  // Daftar item yang tersedia di shop
-    public GameObject itemPrefab;          // Prefab UI untuk item di shop
-    public Transform itemContainer;        // Tempat item-item di shop ditampilkan
-    public TextMeshProUGUI currencyText;   // UI text untuk menampilkan saldo mata uang
-
-    public GameObject confirmationPanel;   // Panel konfirmasi
-    public TextMeshProUGUI confirmationItemName; // Teks untuk nama item di konfirmasi
-    public TextMeshProUGUI confirmationItemPrice; // Teks untuk harga item di konfirmasi
-    public Image confirmationItemIcon;     // Gambar untuk ikon item di konfirmasi
-    public Button confirmButton;           // Tombol konfirmasi pembelian
+    [SerializeField] List<ItemShop> availableItems;  // Daftar item yang tersedia di shop
+    [SerializeField] InventoryShop inventoryShop;
+    [SerializeField] GameObject itemPrefab;          // Prefab UI untuk item di shop
+    [SerializeField] Transform itemContainer;        // Tempat item-item di shop ditampilkan
+    [SerializeField] TextMeshProUGUI currencyText;   // UI text untuk menampilkan saldo mata uang
+    [SerializeField] GameObject confirmationPanel;   // Panel konfirmasi
+    [SerializeField] TextMeshProUGUI confirmationItemName; // Teks untuk nama item di konfirmasi
+    [SerializeField] TextMeshProUGUI confirmationItemPrice; // Teks untuk harga item di konfirmasi
+    [SerializeField] Image confirmationItemIcon;     // Gambar untuk ikon item di konfirmasi
+    [SerializeField] Button confirmButton;           // Tombol konfirmasi pembelian
     private int playerCurrency = 999;     // Saldo mata uang player
     private ItemShop selectedItem;         // Item yang sedang dipilih
 
+    [SerializeField] GameObject shopPanel, cameraShop, virtualCamera;
     void Start()
     {
         UpdateCurrencyUI();
@@ -68,6 +69,7 @@ public class ShopManager : MonoBehaviour
         {
             playerCurrency -= item.itemPrice;
             UpdateCurrencyUI();
+            inventoryShop.AddItemToInventory(item.itemIcon);
             // Logika untuk menambahkan item ke inventory player bisa ditambahkan di sini
             Debug.Log("Purchased: " + item.itemName);
         }
@@ -87,5 +89,15 @@ public class ShopManager : MonoBehaviour
     public void CloseConfirmationPanel()
     {
         confirmationPanel.SetActive(false);
+    }
+
+    public void CloseShop()
+    {
+        cameraShop.SetActive(false);
+        shopPanel.SetActive(false);
+        virtualCamera.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
