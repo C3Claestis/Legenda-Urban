@@ -4,8 +4,9 @@ using TMPro;
 public class InteractionManager
 {
     private float direction;
-    private LayerMask layer;
-    private LayerMask layerInteract;
+    private LayerMask layerGrab;
+    private LayerMask layerShop;
+    private LayerMask layerGacha;
     private Transform cam;
     private GameObject crosshair;
     private TextMeshProUGUI textMesh;
@@ -14,11 +15,12 @@ public class InteractionManager
     private bool canGrab;
     private PlayerInteract playerInteract;
 
-    public InteractionManager(float direction, LayerMask layer, LayerMask layerInteract, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
+    public InteractionManager(float direction, LayerMask layer, LayerMask layerInteract, LayerMask LayerGacha, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
     {
         this.direction = direction;
-        this.layer = layer;
-        this.layerInteract = layerInteract;
+        this.layerGrab = layer;
+        this.layerShop = layerInteract;
+        this.layerGacha = LayerGacha;
         this.crosshair = crosshair;
         this.cam = cam;
         this.textMesh = textMesh;
@@ -45,7 +47,8 @@ public class InteractionManager
         // Menggambar ray untuk tujuan debugging
         Debug.DrawRay(ray.origin, ray.direction * direction, Color.red);
 
-        if (Physics.Raycast(ray, out hit, direction, layer))
+        //Interact Grab
+        if (Physics.Raycast(ray, out hit, direction, layerGrab))
         {
             GrabObject grabObject = hit.collider.GetComponent<GrabObject>();
 
@@ -61,7 +64,8 @@ public class InteractionManager
             }
         }
 
-        if (Physics.Raycast(ray, out hit, direction, layerInteract))
+        //Interact Shop
+        if (Physics.Raycast(ray, out hit, direction, layerShop))
         {
             Transform NPCAction = hit.collider.GetComponent<Transform>();
 
@@ -78,6 +82,28 @@ public class InteractionManager
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
                     }
+                }
+            }
+        }
+
+        //Interact Gacha
+        if (Physics.Raycast(ray, out hit, direction, layerGacha))
+        {
+            WorldGachaManager NPCAction = hit.collider.GetComponent<WorldGachaManager>();
+
+            if (NPCAction != null)
+            {
+                if (Input.GetKey(KeyCode.O))
+                {
+                    Debug.Log("INTERKSI");
+                    cam.gameObject.SetActive(false);
+                    
+                    NPCAction.Player.SetActive(false);
+                    NPCAction.CameraPlayer.SetActive(false);
+                    NPCAction.Gachasystem.SetActive(true);
+
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                 }
             }
         }
