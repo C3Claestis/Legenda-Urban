@@ -100,7 +100,7 @@ public class InteractionManager
                     
                     NPCAction.Player.SetActive(false);
                     NPCAction.CameraPlayer.SetActive(false);
-                    NPCAction.Gachasystem.SetActive(true);
+                    NPCAction.GachaBanner.SetActive(true);
 
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
