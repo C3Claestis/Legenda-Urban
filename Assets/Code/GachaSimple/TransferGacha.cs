@@ -9,15 +9,15 @@ public class TransferGacha : MonoBehaviour
     [SerializeField] string Type;
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PLayer") && Type == "Limited")
+        if (other.CompareTag("Player") && Type == "Limited")
         {
             gachaManager.SetLimited(+50);
         }
-        else if (other.CompareTag("PLayer") && Type == "Weapon")
+        else if (other.CompareTag("Player") && Type == "Weapon")
         {
             gachaManager.SetWeapon(+50);
         }
-        else if (other.CompareTag("PLayer") && Type == "Standard")
+        else if (other.CompareTag("Player") && Type == "Standard")
         {
             gachaManager.SetStandard(+50);
         }
