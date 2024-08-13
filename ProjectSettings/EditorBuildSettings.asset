@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ShopManager.unity
-    guid: 7769f33fb4fa2e5458344a36556ad760
+    path: Assets/Scenes/SimpleGacha.unity
+    guid: 5ae1cd0da7a726a4aabce61ec24febd2
   m_configObjects: {}
