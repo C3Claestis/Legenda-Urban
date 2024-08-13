@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class GachaSystem : MonoBehaviour
 {
+    [Header("BASE OF LIST ITEM IN GACHA")]
     [SerializeField] List<GachaItem> limited5StarItems;   // Karakter limited 5-star
     [SerializeField] List<GachaItem> weapon5StarItems;    // weapon limited 5-star
     [SerializeField] List<GachaItem> standard5StarItems;  // Karakter standard 5-star
     [SerializeField] List<GachaItem> fourStarItems;       // Karakter 4-star
     [SerializeField] List<GachaItem> threeStarItems;       // Weapon 3-star
 
+    [Header("ANIMATION OF GACHA WHELL")]
     [SerializeField] GameObject rotatorLimited;
     [SerializeField] GameObject rotatorStandard;
 
+    [Header("BASE OF PITY FROM 3 BANNER WITHOUT RATE ON/RATE OFF")]
     private int pullCountForLimitedCharacter = 0; // Menghitung jumlah pull untuk pity banner limited character
     private int pullCountForWeaponLimited = 0;  // Menghitung jumlah pull untuk pity banner limited weapon
     private int pullCountForStandard = 0;       // Menghitung jumlah pull untuk pity banner standard
@@ -22,17 +25,18 @@ public class GachaSystem : MonoBehaviour
     {
         pullCountForLimitedCharacter += pullCount;
         rotatorLimited.SetActive(true);
+        rotatorStandard.SetActive(false);
         // Cek apakah mencapai pity
         if (pullCountForLimitedCharacter >= pityThreshold)
         {
-            pullCountForLimitedCharacter = 0;            
+            pullCountForLimitedCharacter = 0;
             return PullLimited5StarCharacter();
         }
 
         // Jika tidak, lakukan pull secara acak berdasarkan rarity
         int randomValue = Random.Range(0, 100);
 
-        if (randomValue < 5) // 5% chance untuk 5-star
+        if (randomValue < 2.5f) // 5% chance untuk 5-star
         {
             return Random.Range(0, 100) < 50 ? PullLimited5StarCharacter() : PullStandard5Star();
         }
@@ -51,6 +55,7 @@ public class GachaSystem : MonoBehaviour
     {
         pullCountForWeaponLimited += pullCount;
         rotatorLimited.SetActive(true);
+        rotatorStandard.SetActive(false);
         // Cek apakah mencapai pity
         if (pullCountForWeaponLimited >= pityThreshold)
         {
@@ -61,7 +66,7 @@ public class GachaSystem : MonoBehaviour
         // Jika tidak, lakukan pull secara acak berdasarkan rarity
         int randomValue = Random.Range(0, 100);
 
-        if (randomValue < 5) // 5% chance untuk 5-star
+        if (randomValue < 2.5f) // 5% chance untuk 5-star
         {
             return Random.Range(0, 100) < 50 ? PullLimited5StarWeapon() : PullStandard5Star();
         }
@@ -80,6 +85,7 @@ public class GachaSystem : MonoBehaviour
     {
         pullCountForStandard += pullCount;
         rotatorStandard.SetActive(true);
+        rotatorLimited.SetActive(false);
         // Cek apakah mencapai pity
         if (pullCountForStandard >= pityThreshold)
         {
@@ -90,7 +96,7 @@ public class GachaSystem : MonoBehaviour
         // Jika tidak, lakukan pull secara acak berdasarkan rarity
         int randomValue = Random.Range(0, 100);
 
-        if (randomValue < 5) // 5% chance untuk 5-star
+        if (randomValue < 2.5f) // 5% chance untuk 5-star
         {
             return Random.Range(0, 100) < 50 ? PullStandard5Star() : PullStandard5Star();
         }
@@ -112,7 +118,7 @@ public class GachaSystem : MonoBehaviour
     private GachaItem PullLimited5StarWeapon()
     {
         int index = Random.Range(0, weapon5StarItems.Count);
-        return limited5StarItems[index];
+        return weapon5StarItems[index];
     }
     private GachaItem PullStandard5Star()
     {

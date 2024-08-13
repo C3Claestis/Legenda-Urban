@@ -9,11 +9,14 @@ public class WorldGachaManager : MonoBehaviour
     [SerializeField] GameObject PanelInventory;
     [SerializeField] GameObject gachaBanner;
     [SerializeField] GameObject gachaSystemObject;
+    [SerializeField] GameObject PanelShowGacha;
+    [SerializeField] Transform containerShowGacha;
     [SerializeField] GameObject cameraPlayer;
     [SerializeField] GameObject PlayerBody;
     [SerializeField] TextMeshProUGUI LimitedUIGacha, LimitedUI;
     [SerializeField] TextMeshProUGUI WeaponUIGacha, WeaponUI;
     [SerializeField] TextMeshProUGUI StandardUIGacha, StandardUI;
+    [SerializeField] RectTransform uiElementToMove;
     private int LimitedCount;
     private int WeaponCount;
     private int StandardCount;
@@ -68,6 +71,7 @@ public class WorldGachaManager : MonoBehaviour
             StartGacha();
             var result = gachaSystem.PullLimitedCharacter(1);
             gachaResultDisplay.DisplayGachaResults(new List<GachaItem> { result });
+
         }
     }
     public void MultipleGachaLimited()
@@ -140,7 +144,34 @@ public class WorldGachaManager : MonoBehaviour
 
     void StartGacha()
     {
+        // Mengubah posisi RectTransform objek UI
+        if (uiElementToMove != null)
+        {
+            RectTransform rectTransform = uiElementToMove;
+            Vector2 newAnchoredPosition = new Vector2(rectTransform.anchoredPosition.x, -1000f);
+            rectTransform.anchoredPosition = newAnchoredPosition;
+        }
         gachaBanner.SetActive(false);
         gachaSystemObject.SetActive(true);
+    }
+
+    public void ShowGacha()
+    {
+        PanelShowGacha.SetActive(true);
+    }
+    public void FinishGacha()
+    {
+        for (int i = containerShowGacha.childCount - 1; i >= 0; i--)
+        {
+            Destroy(containerShowGacha.GetChild(i).gameObject);
+        }
+
+        PanelShowGacha.SetActive(false);
+        PlayerBody.SetActive(true);
+        cameraPlayer.SetActive(true);
+        gachaSystemObject.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
