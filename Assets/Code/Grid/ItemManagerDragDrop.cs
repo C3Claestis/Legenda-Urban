@@ -7,6 +7,7 @@ public class ItemManagerDragDrop : MonoBehaviour
     [SerializeField] List<ItemObject> inventory = new List<ItemObject>();
     [SerializeField] Transform container;
     [SerializeField] GameObject itemTemplate;
+    
     List<Image> icon = new List<Image>();
 
     void Start()

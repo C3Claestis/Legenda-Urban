@@ -7,6 +7,7 @@ public class GridManager : MonoBehaviour
     public int columns = 5;
     public float cellSize = 1f;
 
+    [SerializeField] GameObject panel_legion, panel_orde;
     public void CreateGrid()
     {
         // Hapus grid yang ada sebelumnya
@@ -38,5 +39,18 @@ public class GridManager : MonoBehaviour
         {
             DestroyImmediate(child.gameObject);
         }
+    }
+
+    public void RotateGridBaseLegion()
+    {
+        transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        panel_legion.SetActive(true);
+        panel_orde.SetActive(false);
+    }
+    public void RotateGridBaseOrde()
+    {
+        transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        panel_legion.SetActive(false);
+        panel_orde.SetActive(true);
     }
 }
