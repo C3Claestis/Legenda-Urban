@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 1822601282607877463}
   - component: {fileID: 4207878700145616986}
   - component: {fileID: 7810949753668255876}
-  - component: {fileID: 3820125782916749802}
+  - component: {fileID: 7160913850941805486}
+  - component: {fileID: 5778629261326994052}
+  - component: {fileID: 7370617033983549988}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: GridCell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 47c0d75c1a9ff9d40bcbff43ee812dec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3820125782916749802
-MeshCollider:
+--- !u!65 &7160913850941805486
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,7 +104,32 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.0000002, z: 1.0000002}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5778629261326994052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7764799486327851847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2090ffbade08b2c48a43aa11d8e9ac52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverMaterial: {fileID: 2100000, guid: fe6f57ab860fb234a9b726fa99911702, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 47c0d75c1a9ff9d40bcbff43ee812dec, type: 2}
+--- !u!114 &7370617033983549988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7764799486327851847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1bbaf66248c5b342ab9e1ed901e3906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

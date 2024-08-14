@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CraftingArea
   - NPC
+  - GridCell
+  - GridCellNon
   layers:
   - Default
   - TransparentFX
