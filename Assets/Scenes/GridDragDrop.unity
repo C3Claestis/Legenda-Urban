@@ -4028,16 +4028,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory:
   - name: Terror
-    icon: {fileID: 21300000, guid: 5fd207f68faa5a845be1b0d063e3c06d, type: 3}
+    icon: {fileID: -871741826, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 196076, guid: 20a769104331d8b48ac7d1ea0d49cdf3, type: 3}
   - name: NightMare
-    icon: {fileID: 21300000, guid: 49c63044f14334e479ec578b3619a5b3, type: 3}
+    icon: {fileID: 1849924275, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 193776, guid: edd34a89cfe571f4ca766dcca2459bbe, type: 3}
   - name: SoulEater
-    icon: {fileID: 21300000, guid: 618b7c94715da1c4a8af305d06d3c56b, type: 3}
+    icon: {fileID: 872144324, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 130964, guid: c644a2181ac22e740968a7ece97e8f36, type: 3}
   - name: Usurper
-    icon: {fileID: 21300000, guid: 84499ba2021f8db488bf872e98fde8b0, type: 3}
+    icon: {fileID: 1530297860, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 194904, guid: 445a5c29e7f715947b713a753f242af0, type: 3}
   container: {fileID: 409858456}
   itemTemplate: {fileID: 5946754441412681900, guid: 4fa13a3ccfb388741b466c74e2b52aba,
@@ -10262,16 +10262,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory:
   - name: Terror
-    icon: {fileID: 21300000, guid: 5fd207f68faa5a845be1b0d063e3c06d, type: 3}
+    icon: {fileID: -1305858694, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 101568, guid: 59c100dd669d88f46b60555886d4dae7, type: 3}
   - name: NightMare
-    icon: {fileID: 21300000, guid: 49c63044f14334e479ec578b3619a5b3, type: 3}
+    icon: {fileID: 107734340, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 100720, guid: 8252519d2c6fd014bb5f75765a8c4fda, type: 3}
   - name: SoulEater
-    icon: {fileID: 21300000, guid: 618b7c94715da1c4a8af305d06d3c56b, type: 3}
+    icon: {fileID: 1849924275, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 130416, guid: 70f277dcf2cdfdd4db7ee0ca76e07767, type: 3}
   - name: Usurper
-    icon: {fileID: 21300000, guid: 84499ba2021f8db488bf872e98fde8b0, type: 3}
+    icon: {fileID: -271342057, guid: 3a518738aaf4a47458f39efa79af2ca0, type: 3}
     prefab: {fileID: 139696, guid: eb58e8f2831a51f45a44a261e6710cdd, type: 3}
   container: {fileID: 1031779672}
   itemTemplate: {fileID: 5946754441412681900, guid: 185fca26efdd1414fb8a61978216b1b1,
