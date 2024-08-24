@@ -4,25 +4,21 @@ using TMPro;
 public class InteractionManager
 {
     private float direction;
-    private LayerMask layerGrab;
-    private LayerMask layerShop;
-    private LayerMask layerGacha;
     private Transform cam;
     private GameObject crosshair;
     private TextMeshProUGUI textMesh;
     private GrabObject currentGrabObject;
+    private Door currentDoor;
     private Transform grab;
     private bool canGrab;
+    private bool canOpenDoor;
     private PlayerInteract playerInteract;
 
-    public InteractionManager(float direction, LayerMask layer, LayerMask layerInteract, LayerMask LayerGacha, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
+    public InteractionManager(float direction, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
     {
         this.direction = direction;
-        this.layerGrab = layer;
-        this.layerShop = layerInteract;
-        this.layerGacha = LayerGacha;
-        this.crosshair = crosshair;
         this.cam = cam;
+        this.crosshair = crosshair;
         this.textMesh = textMesh;
         this.playerInteract = playerInteract;
         this.grab = grab;
@@ -38,7 +34,9 @@ public class InteractionManager
 
         textMesh.text = string.Empty;
         canGrab = false;
+        canOpenDoor = false;
         currentGrabObject = null;
+        currentDoor = null;
 
         // Membuat ray dari titik tengah layar menggunakan arah kamera
         Ray ray = new Ray(cam.position, cam.forward);
@@ -47,63 +45,33 @@ public class InteractionManager
         // Menggambar ray untuk tujuan debugging
         Debug.DrawRay(ray.origin, ray.direction * direction, Color.red);
 
-        //Interact Grab
-        if (Physics.Raycast(ray, out hit, direction, layerGrab))
+        // Interact dengan objek yang memiliki tag "GrabObject" atau "door"
+        if (Physics.Raycast(ray, out hit, direction))
         {
-            GrabObject grabObject = hit.collider.GetComponent<GrabObject>();
-
-            if (grabObject != null)
+            if (hit.collider.CompareTag("GrabObject"))
             {
-                textMesh.text = hit.collider.name;
-                canGrab = true;
-                currentGrabObject = grabObject;
-                grabObject.SetIsCanGrab(true);
+                GrabObject grabObject = hit.collider.GetComponent<GrabObject>();
 
-                // Mengatur referensi grabObject dengan transform grab dari PlayerInteract
-                playerInteract.SetGrabReference(grabObject);
-            }
-        }
-
-        //Interact Shop
-        if (Physics.Raycast(ray, out hit, direction, layerShop))
-        {
-            Transform NPCAction = hit.collider.GetComponent<Transform>();
-
-            if (NPCAction != null)
-            {
-                if (Input.GetKey(KeyCode.O))
+                if (grabObject != null)
                 {
-                    Debug.Log("INTERKSI");
-                    cam.gameObject.SetActive(false);
-                    Transform shop = GameObject.Find("Shop").GetComponent<Transform>();
-                    foreach (Transform child in shop.GetComponentInChildren<Transform>())
-                    {
-                        child.gameObject.SetActive(true);
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-                    }
+                    textMesh.text = hit.collider.name;
+                    canGrab = true;
+                    currentGrabObject = grabObject;
+                    grabObject.SetIsCanGrab(true);
+
+                    // Mengatur referensi grabObject dengan transform grab dari PlayerInteract
+                    playerInteract.SetGrabReference(grabObject);
                 }
             }
-        }
-
-        //Interact Gacha
-        if (Physics.Raycast(ray, out hit, direction, layerGacha))
-        {
-            WorldGachaManager NPCAction = hit.collider.GetComponent<WorldGachaManager>();
-
-            if (NPCAction != null)
+            else if (hit.collider.CompareTag("door"))
             {
-                if (Input.GetKey(KeyCode.O))
-                {
-                    Debug.Log("INTERKSI");
-                    cam.gameObject.SetActive(false);
-                    
-                    NPCAction.Player.SetActive(false);
-                    NPCAction.CameraPlayer.SetActive(false);
-                    NPCAction.GachaBanner.SetActive(true);
+                Door door = hit.collider.GetComponent<Door>();
 
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
+                if (door != null)
+                {
+                    textMesh.text = hit.collider.name;
+                    canOpenDoor = true;
+                    currentDoor = door;
                 }
             }
         }
@@ -111,9 +79,10 @@ public class InteractionManager
 
     public void HandleInteract()
     {
-        if (grab.childCount == 0)
+        // Interaksi dengan objek yang bisa di-grab
+        if (canGrab && currentGrabObject != null)
         {
-            if (canGrab && currentGrabObject != null)
+            if (grab.childCount == 0)
             {
                 currentGrabObject.ToggleGrab();
                 if (currentGrabObject.isGrab)
@@ -122,15 +91,21 @@ public class InteractionManager
                     textMesh.gameObject.SetActive(false);
                 }
             }
-        }
-        else
-        {
-            //Membuat local dari object yang ada didalam grab
-            GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
-            getObjekInGrab.ToggleGrab();
+            else
+            {
+                // Membuat local dari objek yang ada di dalam grab
+                GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
+                getObjekInGrab.ToggleGrab();
 
-            crosshair.SetActive(true);
-            textMesh.gameObject.SetActive(true);
+                crosshair.SetActive(true);
+                textMesh.gameObject.SetActive(true);
+            }
+        }
+
+        // Interaksi dengan pintu
+        if (canOpenDoor && currentDoor != null)
+        {
+            currentDoor.ActionDoor();
         }
     }
 
@@ -138,5 +113,4 @@ public class InteractionManager
     {
         this.playerInteract = playerInteract;
     }
-
 }

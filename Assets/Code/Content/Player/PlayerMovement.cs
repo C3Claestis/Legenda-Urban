@@ -11,11 +11,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera virtualCamera; // Cinemachine virtual camera
     [Range(0f, 10.0f)] [SerializeField] float speed = 6.0f; // Speed move
     [Range(0f, 3.0f)] [SerializeField] float mouseSensitivity = 2.0f; // Mouse sens
+    [SerializeField] float jumpHeight = 10.0f; // Tinggi lompatan
+
     private float gravity = -9.81f;
     private CharacterController characterController;
     private Vector3 velocity;
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
+    private bool isJumping = false;
     private float xRotation = 0f;
     private CinemachinePOV povComponent;
 
@@ -43,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCanceled;
+        inputActions.Player.Jump.performed += OnJumpPerformed;
     }
 
     void OnDisable()
@@ -50,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         // Disable the input actions
         inputActions.Player.Move.performed -= OnMovePerformed;
         inputActions.Player.Move.canceled -= OnMoveCanceled;
+        inputActions.Player.Jump.performed -= OnJumpPerformed;
         inputActions.Player.Disable();
     }
 
@@ -59,10 +64,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = CalculateMovementDirection(moveInput.x, moveInput.y);
 
         // Apply gravity
-        if (characterController.isGrounded && velocity.y < 0)
+        if (characterController.isGrounded)
         {
-            velocity.y = -2f;
+            if (velocity.y < 0)
+            {
+                velocity.y = -2f; // Reset velocity saat pemain menyentuh tanah
+            }
+
+            // Apply jump
+            if (isJumping)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                isJumping = false; // Reset status lompat setelah lompat
+            }
         }
+
+        // Apply gravity
         velocity.y += gravity * Time.deltaTime;
 
         // Apply movement and gravity
@@ -113,5 +130,13 @@ public class PlayerMovement : MonoBehaviour
     void OnMoveCanceled(InputAction.CallbackContext context)
     {
         moveInput = Vector2.zero;
+    }
+
+    void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        if (characterController.isGrounded)
+        {
+            isJumping = true; // Set flag lompat saat pemain di tanah
+        }
     }
 }
