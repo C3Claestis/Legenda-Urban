@@ -9,7 +9,7 @@ public class NPCRandom : MonoBehaviour
     public GameObject aim_point;
 
     [SerializeField] float timingSit;
-    
+
     public bool execute_walking;
     public bool execute_sitting;
     public bool execute_stealing;
@@ -320,6 +320,19 @@ public class NPCRandom : MonoBehaviour
                 }
             }
         }
+    }
+    public void LookAtPlayer(Transform player)
+    {
+        // Hentikan NPC
+        agent.isStopped = true;
+
+        // Rotasi NPC untuk menghadap ke pemain hanya di sumbu Y
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0; // Hanya sumbu Y yang diubah
+        transform.rotation = Quaternion.LookRotation(direction);
+        
+        ani.SetInteger("arms", 5);
+        ani.SetInteger("legs", 5);
     }
 
     public List<GameObject> way_points = new List<GameObject>();

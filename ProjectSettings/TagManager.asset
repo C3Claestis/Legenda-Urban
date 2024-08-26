@@ -19,6 +19,7 @@ TagManager:
   - button f6
   - sittingpoint
   - pickuppoint
+  - GrabObject
   layers:
   - Default
   - TransparentFX

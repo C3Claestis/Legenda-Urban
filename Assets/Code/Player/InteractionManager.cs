@@ -12,6 +12,9 @@ public class InteractionManager
     private Transform grab;
     private bool canGrab;
     private bool canOpenDoor;
+    private NPCRandom currentNPC;
+    private bool canInteractWithNPC;
+
     private PlayerInteract playerInteract;
 
     public InteractionManager(float direction, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
@@ -74,10 +77,24 @@ public class InteractionManager
                     currentDoor = door;
                 }
             }
+            // Reset referensi NPC saat raycast dilakukan
+            canInteractWithNPC = false;
+            currentNPC = null;
+
             if (hit.collider.CompareTag("NPC"))
             {
                 textMesh.text = hit.collider.name;
+
+                // Mendapatkan referensi ke NPCRandom script
+                NPCRandom npc = hit.collider.GetComponent<NPCRandom>();
+                if (npc != null)
+                {
+                    canInteractWithNPC = true;
+                    currentNPC = npc; // Simpan referensi NPC
+                }
             }
+
+
             if (hit.collider.gameObject.name == "Button floor 1")
             {
                 hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 1");
@@ -136,7 +153,15 @@ public class InteractionManager
         {
             currentDoor.ActionDoor();
         }
+
+        // Interaksi dengan NPC
+        if (canInteractWithNPC && currentNPC != null)
+        {
+            // Contoh interaksi dengan NPC, bisa disesuaikan dengan kebutuhan
+            currentNPC.LookAtPlayer(cam);
+        }
     }
+
 
     public void SetPlayerInteract(PlayerInteract playerInteract)
     {
