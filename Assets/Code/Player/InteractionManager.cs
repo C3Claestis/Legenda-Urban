@@ -74,6 +74,10 @@ public class InteractionManager
                     currentDoor = door;
                 }
             }
+            if (hit.collider.CompareTag("NPC"))
+            {
+                textMesh.text = hit.collider.name;
+            }
             if (hit.collider.gameObject.name == "Button floor 1")
             {
                 hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 1");
