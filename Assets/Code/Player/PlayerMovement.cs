@@ -30,10 +30,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Initialize input actions
         inputActions = new PlayerInputActions();
-
-        // Lock the cursor to the center of the screen and hide it
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     void Start()
@@ -89,11 +85,29 @@ public class PlayerMovement : MonoBehaviour
             // Apply movement and gravity
             characterController.Move((move * speed + velocity) * Time.deltaTime);
         }
-        
+  
         // Handle camera and body rotation
         HandleCameraRotation();
+        HandleCursor();
     }
 
+    private bool HandleCursor()
+    {
+        if (isCanMove)
+        {
+            // Lock the cursor to the center of the screen and hide it
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // Lock the cursor to the center of the screen and hide it
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        return isCanMove;
+    }
     Vector3 CalculateMovementDirection(float moveHorizontal, float moveVertical)
     {
         // Calculate camera's forward and right directions

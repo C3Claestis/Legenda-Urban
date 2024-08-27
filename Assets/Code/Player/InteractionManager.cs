@@ -74,7 +74,7 @@ public class InteractionManager
 
                 if (door != null)
                 {
-                    textMesh.text = hit.collider.name;
+                    textMesh.text = "[E]";
                     canOpenDoor = true;
                     currentDoor = door;
                 }
@@ -85,7 +85,7 @@ public class InteractionManager
 
             if (hit.collider.CompareTag("NPC"))
             {
-                textMesh.text = hit.collider.name;
+                textMesh.text = "[E]";
 
                 // Mendapatkan referensi ke NPCRandom script
                 NPCRandom npc = hit.collider.GetComponent<NPCRandom>();
