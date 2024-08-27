@@ -2962,7 +2962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 2085556150}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -2976,6 +2976,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 2085556148}
   ready: 1
   way_points:
@@ -4384,7 +4385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 1943044062}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -4398,6 +4399,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 1943044060}
   ready: 1
   way_points:
@@ -7595,7 +7597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 1913285516}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -7609,6 +7611,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 1913285514}
   ready: 1
   way_points:
@@ -8022,6 +8025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e77771beac081e44e84ef300e6893f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 825910052}
   direction: 2.5
   cam: {fileID: 377845270}
   crosshair: {fileID: 1979549989}
@@ -24507,7 +24511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 1599162453}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -24521,6 +24525,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 1599162451}
   ready: 1
   way_points:
@@ -24817,6 +24822,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 1378600974}
   ready: 1
   way_points:
@@ -27145,7 +27151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 247294583}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -27159,6 +27165,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 247294581}
   ready: 1
   way_points:
@@ -27418,7 +27425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 554965500}
   aim_point: {fileID: 0}
-  timingSit: 5
+  timingSit: 30
   execute_walking: 0
   execute_sitting: 0
   execute_stealing: 0
@@ -27432,6 +27439,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 554965498}
   ready: 1
   way_points:
@@ -27673,6 +27681,7 @@ MonoBehaviour:
   steal: 0
   pick_up: 0
   destermine_new_aim: 0
+  isNotRandom: 0
   crowbar: {fileID: 757083472}
   ready: 1
   way_points:

@@ -4,6 +4,7 @@ using TMPro;
 
 public class PlayerInteract : MonoBehaviour
 {
+    [Header("Player Movement Referensi")][SerializeField] private PlayerMovement playerMovement; // Referensi ke Playermove
     [Header("Jangkauan Raycast")][Range(0.1f, 5.0f)][SerializeField] private float direction = 2.5f;
     [Header("Camera Referensi")][SerializeField] private Transform cam; // Referensi ke Kamera
     [Header("Crosshair Raycast")][SerializeField] private GameObject crosshair;
@@ -16,7 +17,7 @@ public class PlayerInteract : MonoBehaviour
     {
         // Inisialisasi input actions
         inputActions = new PlayerInputActions();
-        interactionManager = new InteractionManager(direction, cam, crosshair, textMesh, this, grab);
+        interactionManager = new InteractionManager(direction, cam, crosshair, textMesh, this, playerMovement, grab);
         SetInteractionManager(interactionManager);
         interactionManager.SetPlayerInteract(this);
     }
@@ -46,12 +47,6 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         interactionManager.PerformRaycast();
-
-        // Periksa jika tombol interact ditekan
-        if (inputActions.Player.Interact.IsPressed())
-        {
-            interactionManager.HandleInteract();
-        }
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext context)

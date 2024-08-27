@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform cam;  // Kamera
     [SerializeField] Transform body; // Badan Pemain
     [SerializeField] CinemachineVirtualCamera virtualCamera; // Cinemachine virtual camera
-    [Range(0f, 10.0f)] [SerializeField] float speed = 6.0f; // Speed move
-    [Range(0f, 3.0f)] [SerializeField] float mouseSensitivity = 2.0f; // Mouse sens
+    [Range(0f, 10.0f)][SerializeField] float speed = 6.0f; // Speed move
+    [Range(0f, 3.0f)][SerializeField] float mouseSensitivity = 2.0f; // Mouse sens
     [SerializeField] float jumpHeight = 10.0f; // Tinggi lompatan
 
     private float gravity = -9.81f;
@@ -21,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = false;
     private float xRotation = 0f;
     private CinemachinePOV povComponent;
-
+    private bool isCanMove = true;
+    public void SetCanMove(bool canMove) => this.isCanMove = canMove;
+    public bool GetCanMove() => this.isCanMove;
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -60,31 +62,34 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Calculate movement direction
-        Vector3 move = CalculateMovementDirection(moveInput.x, moveInput.y);
-
-        // Apply gravity
-        if (characterController.isGrounded)
+        if (isCanMove)
         {
-            if (velocity.y < 0)
+            // Calculate movement direction
+            Vector3 move = CalculateMovementDirection(moveInput.x, moveInput.y);
+
+            // Apply gravity
+            if (characterController.isGrounded)
             {
-                velocity.y = -2f; // Reset velocity saat pemain menyentuh tanah
+                if (velocity.y < 0)
+                {
+                    velocity.y = -2f; // Reset velocity saat pemain menyentuh tanah
+                }
+
+                // Apply jump
+                if (isJumping)
+                {
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                    isJumping = false; // Reset status lompat setelah lompat
+                }
             }
 
-            // Apply jump
-            if (isJumping)
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                isJumping = false; // Reset status lompat setelah lompat
-            }
+            // Apply gravity
+            velocity.y += gravity * Time.deltaTime;
+
+            // Apply movement and gravity
+            characterController.Move((move * speed + velocity) * Time.deltaTime);
         }
-
-        // Apply gravity
-        velocity.y += gravity * Time.deltaTime;
-
-        // Apply movement and gravity
-        characterController.Move((move * speed + velocity) * Time.deltaTime);
-
+        
         // Handle camera and body rotation
         HandleCameraRotation();
     }

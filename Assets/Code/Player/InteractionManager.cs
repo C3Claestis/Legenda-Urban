@@ -16,14 +16,16 @@ public class InteractionManager
     private bool canInteractWithNPC;
 
     private PlayerInteract playerInteract;
+    private PlayerMovement playerMovement;
 
-    public InteractionManager(float direction, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, Transform grab)
+    public InteractionManager(float direction, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, PlayerMovement playerMovement, Transform grab)
     {
         this.direction = direction;
         this.cam = cam;
         this.crosshair = crosshair;
         this.textMesh = textMesh;
         this.playerInteract = playerInteract;
+        this.playerMovement = playerMovement;
         this.grab = grab;
     }
 
@@ -123,44 +125,58 @@ public class InteractionManager
         }
     }
 
-    public void HandleInteract()
+   private bool npcInteractionInProgress = false; // Tambahkan variabel ini untuk melacak status interaksi dengan NPC
+
+public void HandleInteract()
+{
+    // Interaksi dengan objek yang bisa di-grab
+    if (canGrab && currentGrabObject != null)
     {
-        // Interaksi dengan objek yang bisa di-grab
-        if (canGrab && currentGrabObject != null)
+        if (grab.childCount == 0)
         {
-            if (grab.childCount == 0)
+            currentGrabObject.ToggleGrab();
+            if (currentGrabObject.isGrab)
             {
-                currentGrabObject.ToggleGrab();
-                if (currentGrabObject.isGrab)
-                {
-                    crosshair.SetActive(false);
-                    textMesh.gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                // Membuat local dari objek yang ada di dalam grab
-                GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
-                getObjekInGrab.ToggleGrab();
-
-                crosshair.SetActive(true);
-                textMesh.gameObject.SetActive(true);
+                crosshair.SetActive(false);
+                textMesh.gameObject.SetActive(false);
             }
         }
-
-        // Interaksi dengan pintu
-        if (canOpenDoor && currentDoor != null)
+        else
         {
-            currentDoor.ActionDoor();
-        }
+            // Membuat local dari objek yang ada di dalam grab
+            GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
+            getObjekInGrab.ToggleGrab();
 
-        // Interaksi dengan NPC
-        if (canInteractWithNPC && currentNPC != null)
-        {
-            // Contoh interaksi dengan NPC, bisa disesuaikan dengan kebutuhan
-            currentNPC.LookAtPlayer(cam);
+            crosshair.SetActive(true);
+            textMesh.gameObject.SetActive(true);
         }
     }
+
+    // Interaksi dengan pintu
+    if (canOpenDoor && currentDoor != null)
+    {
+        currentDoor.ActionDoor();
+    }
+
+    // Interaksi dengan NPC
+    if (canInteractWithNPC && currentNPC != null)
+    {
+        if (!npcInteractionInProgress)
+        {
+            // Interaksi pertama: NPC menghadap pemain dan pemain tidak bisa bergerak
+            currentNPC.LookAtPlayer(cam);
+            playerMovement.SetCanMove(false);
+            npcInteractionInProgress = true; // Tandai bahwa interaksi sedang berlangsung
+        }
+        else
+        {
+            // Interaksi kedua: Mengembalikan kontrol pergerakan pemain dan memulai kembali aktivitas NPC secara acak
+            playerMovement.SetCanMove(true);
+            currentNPC.RandomAgain();
+            npcInteractionInProgress = false; // Reset status interaksi
+        }
+    }
+}
 
 
     public void SetPlayerInteract(PlayerInteract playerInteract)

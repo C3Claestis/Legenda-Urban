@@ -33,7 +33,7 @@ public class NPCRandom : MonoBehaviour
     public bool pick_up;
 
     public bool destermine_new_aim;
-
+    public bool isNotRandom;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -87,8 +87,8 @@ public class NPCRandom : MonoBehaviour
         yield return new WaitForSeconds(0);
 
         transform.parent = aim_point.transform;
-
-        Destroy(agent);
+        agent.isStopped = true;
+        //Destroy(agent);
 
         ani.SetInteger("legs", 3);
         ani.SetInteger("arms", 3);
@@ -98,8 +98,8 @@ public class NPCRandom : MonoBehaviour
 
         yield return new WaitForSeconds(timingSit);
 
-        agent = gameObject.AddComponent<NavMeshAgent>();
-
+        //agent = gameObject.AddComponent<NavMeshAgent>();
+        agent.isStopped = false;
         in_sitting = false;
         destermine_new_aim = false;
         transform.parent = null;
@@ -147,175 +147,178 @@ public class NPCRandom : MonoBehaviour
 
     void Update()
     {
-        if (!ready)
+        if (!isNotRandom)
         {
-            return;
-        }
-
-        if (!destermine_new_aim)
-        {
-            int what_to_choose = UnityEngine.Random.Range(0, 5);
-
-            walk = false;
-            run = false;
-            sit = false;
-            steal = false;
-            pick_up = false;
-
-            if (what_to_choose == 0)
+            if (!ready)
             {
-                walk = true;
-
-                int Which_point = UnityEngine.Random.Range(0, way_points.Count);
-                aim_point = way_points[Which_point].gameObject;
-                destermine_new_aim = true;
-            }
-            if (what_to_choose == 1)
-            {
-                run = true;
-
-                int Which_point = UnityEngine.Random.Range(0, way_points.Count);
-                aim_point = way_points[Which_point].gameObject;
-                destermine_new_aim = true;
-            }
-            if (what_to_choose == 2)
-            {
-                sit = true;
-
-                int Which_point = UnityEngine.Random.Range(0, Sitting_points.Count);
-                aim_point = Sitting_points[Which_point].gameObject;
-                destermine_new_aim = true;
-            }
-            if (what_to_choose == 3)
-            {
-                steal = true;
-
-                int Which_point = UnityEngine.Random.Range(0, Stealing_points.Count);
-                aim_point = Stealing_points[Which_point].gameObject;
-                destermine_new_aim = true;
-            }
-            if (what_to_choose == 4)
-            {
-                pick_up = true;
-
-                int Which_point = UnityEngine.Random.Range(0, pick_up_points.Count);
-                aim_point = pick_up_points[Which_point].gameObject;
-                destermine_new_aim = true;
+                return;
             }
 
-        }
-        if (destermine_new_aim)
-        {
-            if (walk)
+            if (!destermine_new_aim)
             {
+                int what_to_choose = UnityEngine.Random.Range(0, 5);
 
-                if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                walk = false;
+                run = false;
+                sit = false;
+                steal = false;
+                pick_up = false;
+
+                if (what_to_choose == 0)
                 {
-                    agent.speed = walk_speed;
-                    agent.SetDestination(aim_point.transform.position);
-                    ani.SetInteger("arms", 1);
-                    ani.SetInteger("legs", 1);
+                    walk = true;
+
+                    int Which_point = UnityEngine.Random.Range(0, way_points.Count);
+                    aim_point = way_points[Which_point].gameObject;
+                    destermine_new_aim = true;
                 }
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                if (what_to_choose == 1)
                 {
-                    agent.speed = 0;
+                    run = true;
 
-                    ani.SetInteger("arms", 5);
-                    ani.SetInteger("legs", 5);
+                    int Which_point = UnityEngine.Random.Range(0, way_points.Count);
+                    aim_point = way_points[Which_point].gameObject;
+                    destermine_new_aim = true;
+                }
+                if (what_to_choose == 2)
+                {
+                    sit = true;
 
-                    destermine_new_aim = false;
+                    int Which_point = UnityEngine.Random.Range(0, Sitting_points.Count);
+                    aim_point = Sitting_points[Which_point].gameObject;
+                    destermine_new_aim = true;
+                }
+                if (what_to_choose == 3)
+                {
+                    steal = true;
+
+                    int Which_point = UnityEngine.Random.Range(0, Stealing_points.Count);
+                    aim_point = Stealing_points[Which_point].gameObject;
+                    destermine_new_aim = true;
+                }
+                if (what_to_choose == 4)
+                {
+                    pick_up = true;
+
+                    int Which_point = UnityEngine.Random.Range(0, pick_up_points.Count);
+                    aim_point = pick_up_points[Which_point].gameObject;
+                    destermine_new_aim = true;
                 }
 
             }
-            if (run)
+            if (destermine_new_aim)
             {
-                if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
-                {
-                    Debug.Log("going to run");
-                    agent.speed = run_speed;
-                    agent.SetDestination(aim_point.transform.position);
-                    ani.SetInteger("arms", 2);
-                    ani.SetInteger("legs", 2);
-                }
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
-                {
-                    agent.speed = 0;
-
-                    ani.SetInteger("arms", 5);
-                    ani.SetInteger("legs", 5);
-
-                    destermine_new_aim = false;
-                }
-
-            }
-            if (sit && !in_sitting)
-            {
-                if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                if (walk)
                 {
 
-                    agent.speed = walk_speed;
-                    agent.SetDestination(aim_point.transform.position);
-                    ani.SetInteger("arms", 1);
-                    ani.SetInteger("legs", 1);
-                }
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
-                {
-                    agent.speed = 0;
-
-                    if (!in_sitting)
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
                     {
-                        in_sitting = true;
+                        agent.speed = walk_speed;
+                        agent.SetDestination(aim_point.transform.position);
+                        ani.SetInteger("arms", 1);
+                        ani.SetInteger("legs", 1);
+                    }
 
-                        sitting_start = StartCoroutine(sitting_down());
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                    {
+                        agent.speed = 0;
+
+                        ani.SetInteger("arms", 5);
+                        ani.SetInteger("legs", 5);
+
+                        destermine_new_aim = false;
+                    }
+
+                }
+                if (run)
+                {
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                    {
+                        Debug.Log("going to run");
+                        agent.speed = run_speed;
+                        agent.SetDestination(aim_point.transform.position);
+                        ani.SetInteger("arms", 2);
+                        ani.SetInteger("legs", 2);
+                    }
+
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                    {
+                        agent.speed = 0;
+
+                        ani.SetInteger("arms", 5);
+                        ani.SetInteger("legs", 5);
+
+                        destermine_new_aim = false;
+                    }
+
+                }
+                if (sit && !in_sitting)
+                {
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                    {
+
+                        agent.speed = walk_speed;
+                        agent.SetDestination(aim_point.transform.position);
+                        ani.SetInteger("arms", 1);
+                        ani.SetInteger("legs", 1);
+                    }
+
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                    {
+                        agent.speed = 0;
+
+                        if (!in_sitting)
+                        {
+                            in_sitting = true;
+
+                            sitting_start = StartCoroutine(sitting_down());
+                        }
                     }
                 }
-            }
-            if (steal && !in_stealing)
-            {
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                if (steal && !in_stealing)
                 {
 
-                    agent.speed = walk_speed;
-                    agent.SetDestination(aim_point.transform.position);
-                    ani.SetInteger("arms", 1);
-                    ani.SetInteger("legs", 1);
-                }
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
-                {
-                    agent.speed = 0;
-
-                    if (!in_stealing)
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
                     {
-                        in_stealing = true;
 
-                        stealing_start = StartCoroutine(stealing_execute());
+                        agent.speed = walk_speed;
+                        agent.SetDestination(aim_point.transform.position);
+                        ani.SetInteger("arms", 1);
+                        ani.SetInteger("legs", 1);
+                    }
+
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                    {
+                        agent.speed = 0;
+
+                        if (!in_stealing)
+                        {
+                            in_stealing = true;
+
+                            stealing_start = StartCoroutine(stealing_execute());
+                        }
                     }
                 }
-            }
-            if (pick_up && !in_pickup)
-            {
-                if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
+                if (pick_up && !in_pickup)
                 {
-                    agent.speed = walk_speed;
-                    agent.SetDestination(aim_point.transform.position);
-                    ani.SetInteger("arms", 1);
-                    ani.SetInteger("legs", 1);
-                }
-
-                if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
-                {
-                    agent.speed = 0;
-
-                    if (!in_pickup)
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) > 0.25f)
                     {
-                        in_pickup = true;
+                        agent.speed = walk_speed;
+                        agent.SetDestination(aim_point.transform.position);
+                        ani.SetInteger("arms", 1);
+                        ani.SetInteger("legs", 1);
+                    }
 
-                        pickup_start = StartCoroutine(pickup_execute());
+                    if (Vector3.Distance(transform.position, aim_point.transform.position) < 0.25f)
+                    {
+                        agent.speed = 0;
+
+                        if (!in_pickup)
+                        {
+                            in_pickup = true;
+
+                            pickup_start = StartCoroutine(pickup_execute());
+                        }
                     }
                 }
             }
@@ -323,16 +326,24 @@ public class NPCRandom : MonoBehaviour
     }
     public void LookAtPlayer(Transform player)
     {
-        // Hentikan NPC
-        agent.isStopped = true;
+        if (!isNotRandom)
+        {
+            // Hentikan NPC
+            agent.isStopped = true;
+            isNotRandom = true;
+            // Rotasi NPC untuk menghadap ke pemain hanya di sumbu Y
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0; // Hanya sumbu Y yang diubah
+            transform.rotation = Quaternion.LookRotation(direction);
 
-        // Rotasi NPC untuk menghadap ke pemain hanya di sumbu Y
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0; // Hanya sumbu Y yang diubah
-        transform.rotation = Quaternion.LookRotation(direction);
-        
-        ani.SetInteger("arms", 5);
-        ani.SetInteger("legs", 5);
+            ani.SetInteger("arms", 5);
+            ani.SetInteger("legs", 5);
+        }
+    }
+    public void RandomAgain()
+    {
+        isNotRandom = false;
+        agent.isStopped = false;
     }
 
     public List<GameObject> way_points = new List<GameObject>();
