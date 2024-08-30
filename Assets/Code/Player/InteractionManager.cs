@@ -9,9 +9,11 @@ public class InteractionManager
     private TextMeshProUGUI textMesh;
     private GrabObject currentGrabObject;
     private Door currentDoor;
+    private PCPlayer pCPlayer;
     private Transform grab;
     private bool canGrab;
     private bool canOpenDoor;
+    private bool canOpenPC;
     private NPCRandom currentNPC;
     private bool canInteractWithNPC;
 
@@ -96,87 +98,81 @@ public class InteractionManager
                 }
             }
 
+            canOpenPC = false;
 
-            if (hit.collider.gameObject.name == "Button floor 1")
+            if (hit.collider.gameObject.name == "PC-Player")
             {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 1");
+                textMesh.text = "[E]";
 
-            }
-            if (hit.collider.gameObject.name == "Button floor 2")
-            {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 2");
-            }
-            if (hit.collider.gameObject.name == "Button floor 3")
-            {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 3");
-            }
-            if (hit.collider.gameObject.name == "Button floor 4")
-            {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 4");
-            }
-            if (hit.collider.gameObject.name == "Button floor 5")
-            {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 5");
-            }
-            if (hit.collider.gameObject.name == "Button floor 6")
-            {
-                hit.transform.gameObject.GetComponent<pass_on_parent>().MyParent.GetComponent<evelator_controll>().AddTaskEve("Button floor 6");
+                PCPlayer pCPlayerplayer = hit.collider.GetComponent<PCPlayer>();
+
+                if (pCPlayerplayer != null)
+                {
+                    canOpenPC = true;
+                    pCPlayer = pCPlayerplayer;
+                }
             }
         }
     }
 
-   private bool npcInteractionInProgress = false; // Tambahkan variabel ini untuk melacak status interaksi dengan NPC
+    private bool npcInteractionInProgress = false; // Tambahkan variabel ini untuk melacak status interaksi dengan NPC
 
-public void HandleInteract()
-{
-    // Interaksi dengan objek yang bisa di-grab
-    if (canGrab && currentGrabObject != null)
+    public void HandleInteract()
     {
-        if (grab.childCount == 0)
+        // Interaksi dengan objek yang bisa di-grab
+        if (canGrab && currentGrabObject != null)
         {
-            currentGrabObject.ToggleGrab();
-            if (currentGrabObject.isGrab)
+            if (grab.childCount == 0)
             {
-                crosshair.SetActive(false);
-                textMesh.gameObject.SetActive(false);
+                currentGrabObject.ToggleGrab();
+                if (currentGrabObject.isGrab)
+                {
+                    crosshair.SetActive(false);
+                    textMesh.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                // Membuat local dari objek yang ada di dalam grab
+                GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
+                getObjekInGrab.ToggleGrab();
+
+                crosshair.SetActive(true);
+                textMesh.gameObject.SetActive(true);
             }
         }
-        else
-        {
-            // Membuat local dari objek yang ada di dalam grab
-            GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
-            getObjekInGrab.ToggleGrab();
 
-            crosshair.SetActive(true);
-            textMesh.gameObject.SetActive(true);
+        // Interaksi dengan pintu
+        if (canOpenDoor && currentDoor != null)
+        {
+            currentDoor.ActionDoor();
+        }
+
+        // Interaksi dengan NPC
+        if (canInteractWithNPC && currentNPC != null)
+        {
+            if (!npcInteractionInProgress)
+            {
+                // Interaksi pertama: NPC menghadap pemain dan pemain tidak bisa bergerak
+                currentNPC.LookAtPlayer(cam);
+                playerMovement.SetCanMove(false);
+                npcInteractionInProgress = true; // Tandai bahwa interaksi sedang berlangsung
+            }
+            else
+            {
+                // Interaksi kedua: Mengembalikan kontrol pergerakan pemain dan memulai kembali aktivitas NPC secara acak
+                playerMovement.SetCanMove(true);
+                currentNPC.RandomAgain();
+                npcInteractionInProgress = false; // Reset status interaksi
+            }
+        }
+
+        //Interaksi dengan PC Player
+        if (canOpenPC && pCPlayer != null)
+        {
+            pCPlayer.SetActive(true);
         }
     }
-
-    // Interaksi dengan pintu
-    if (canOpenDoor && currentDoor != null)
-    {
-        currentDoor.ActionDoor();
-    }
-
-    // Interaksi dengan NPC
-    if (canInteractWithNPC && currentNPC != null)
-    {
-        if (!npcInteractionInProgress)
-        {
-            // Interaksi pertama: NPC menghadap pemain dan pemain tidak bisa bergerak
-            currentNPC.LookAtPlayer(cam);
-            playerMovement.SetCanMove(false);
-            npcInteractionInProgress = true; // Tandai bahwa interaksi sedang berlangsung
-        }
-        else
-        {
-            // Interaksi kedua: Mengembalikan kontrol pergerakan pemain dan memulai kembali aktivitas NPC secara acak
-            playerMovement.SetCanMove(true);
-            currentNPC.RandomAgain();
-            npcInteractionInProgress = false; // Reset status interaksi
-        }
-    }
-}
 
 
     public void SetPlayerInteract(PlayerInteract playerInteract)

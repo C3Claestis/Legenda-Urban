@@ -88,12 +88,12 @@ public class PlayerMovement : MonoBehaviour
   
         // Handle camera and body rotation
         HandleCameraRotation();
-        HandleCursor();
+        HandleCursor(isCanMove);
     }
 
-    private bool HandleCursor()
+    public bool HandleCursor(bool value)
     {
-        if (isCanMove)
+        if (value)
         {
             // Lock the cursor to the center of the screen and hide it
             Cursor.lockState = CursorLockMode.Locked;
