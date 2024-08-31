@@ -14,7 +14,7 @@ public class InteractionManager
     private bool canGrab;
     private bool canOpenDoor;
     private bool canOpenPC;
-    private NPCRandom currentNPC;
+    private NPCTalkManager currentNPC;
     private bool canInteractWithNPC;
 
     private PlayerInteract playerInteract;
@@ -85,12 +85,12 @@ public class InteractionManager
             canInteractWithNPC = false;
             currentNPC = null;
 
-            if (hit.collider.CompareTag("NPCRandom"))
+            if (hit.collider.CompareTag("NPCRandom") || hit.collider.CompareTag("NPC"))
             {
                 textMesh.text = "[E]";
 
                 // Mendapatkan referensi ke NPCRandom script
-                NPCRandom npc = hit.collider.GetComponent<NPCRandom>();
+                NPCTalkManager npc = hit.collider.GetComponent<NPCTalkManager>();
                 if (npc != null)
                 {
                     canInteractWithNPC = true;

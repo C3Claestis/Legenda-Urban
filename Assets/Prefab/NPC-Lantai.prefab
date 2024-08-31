@@ -634,8 +634,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5025226520308761174}
-        m_TargetAssemblyTypeName: NPCRandom, Assembly-CSharp
+      - m_Target: {fileID: 5230546281717499945}
+        m_TargetAssemblyTypeName: NPCTalkManager, Assembly-CSharp
         m_MethodName: RandomAgain
         m_Mode: 1
         m_Arguments:
@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 1485651138641701068}
   - component: {fileID: 8406646002072265643}
   - component: {fileID: 5025226520308761174}
+  - component: {fileID: 5230546281717499945}
   m_Layer: 0
   m_Name: NPC-Lantai
   m_TagString: NPC
@@ -977,9 +978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808826c67b3af97418dfc2a48190b3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   ani: {fileID: 8226469869687085550}
-  cameraSpeak: {fileID: 1881046503454809298}
-  virtualCam: {fileID: 0}
   timingSit: 5
   execute_walking: 0
   execute_sitting: 0
@@ -1001,6 +1001,22 @@ MonoBehaviour:
   Sitting_points: []
   Stealing_points: []
   pick_up_points: []
+--- !u!114 &5230546281717499945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5787133804803791120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2023b4ec41b37fa47aa1e5506832e3e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nPCRandom: {fileID: 0}
+  cameraSpeak: {fileID: 1881046503454809298}
+  virtualCam: {fileID: 0}
+  mainCam: {fileID: 0}
 --- !u!1001 &6544846025570148755
 PrefabInstance:
   m_ObjectHideFlags: 0
