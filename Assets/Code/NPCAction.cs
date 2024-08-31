@@ -17,17 +17,21 @@ public class NPCAction : MonoBehaviour
     "Mungkin aku memang ditakdirkan sendiri...",
     "Seandainya waktu bisa diputar kembali..."
     };
+    Transform player;
+    [SerializeField] Animator animator;
     [SerializeField] GameObject text_action;
     [SerializeField] float range = 1f;
-    [SerializeField] Transform player;
     [SerializeField] TextMeshProUGUI textMeshProUGUI;
     [SerializeField] float timeInterval = 5f;
     void Start()
     {
+        animator.SetInteger("arms", 5);
+        animator.SetInteger("legs", 5);
         // Pastikan text_action dalam keadaan tidak aktif di awal
         text_action.SetActive(false);
         // Mulai mengacak teks setiap 5 detik
         InvokeRepeating("ShowRandomSaying", 0f, timeInterval);
+        player = FindObjectOfType<PlayerMovement>().GetComponent<Transform>();
     }
 
     void Update()

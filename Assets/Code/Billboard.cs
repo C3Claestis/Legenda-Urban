@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField] Transform playerCamera;
+    Transform playerCamera;
 
+    void Start()
+    {
+        if (playerCamera == null)
+        {
+            playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+        }
+    }
     void Update()
     {
         // Arahkan canvas ke arah kamera dengan hanya mengubah rotasi di sumbu Y
