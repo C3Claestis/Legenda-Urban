@@ -6,6 +6,7 @@ public class GrabObject : MonoBehaviour
     public bool isGrab;
     private Transform reference;
     private Rigidbody rb;
+    private Collider col;
 
     public void SetIsCanGrab(bool isCanGrab)
     {
@@ -26,6 +27,7 @@ public class GrabObject : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
     }
 
     void Update()
@@ -46,16 +48,18 @@ public class GrabObject : MonoBehaviour
     {
         if (isGrab)
         {
-            if (rb != null)
+            rb.isKinematic = true;
+            if (col != null)
             {
-                Destroy(rb);
+                col.enabled = false;
             }
         }
         else
         {
-            if (rb == null)
+            rb.isKinematic = false;
+            if (col != null)
             {
-                rb = gameObject.AddComponent<Rigidbody>();
+                col.enabled = true;
             }
         }
     }

@@ -117,31 +117,35 @@ public class InteractionManager
 
     private bool npcInteractionInProgress = false; // Tambahkan variabel ini untuk melacak status interaksi dengan NPC
 
-    public void HandleInteract()
+    public void HandleInteractObject()
     {
         // Interaksi dengan objek yang bisa di-grab
         if (canGrab && currentGrabObject != null)
         {
+            // Jika tidak ada objek di grab, grab objek baru
             if (grab.childCount == 0)
             {
-                currentGrabObject.ToggleGrab();
-                if (currentGrabObject.isGrab)
-                {
-                    crosshair.SetActive(false);
-                    textMesh.gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                // Membuat local dari objek yang ada di dalam grab
-                GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
-                getObjekInGrab.ToggleGrab();
-
-                crosshair.SetActive(true);
-                textMesh.gameObject.SetActive(true);
+                currentGrabObject.SetReference(grab); // Mengatur referensi grab
+                currentGrabObject.ToggleGrab(); // Mengaktifkan grab
             }
         }
 
+        if (!canGrab && currentGrabObject == null && grab.childCount != 0)
+        {
+            // Jika ada objek di grab, lepaskan objek tersebut
+            GrabObject getObjekInGrab = grab.GetChild(0).GetComponent<GrabObject>();
+            getObjekInGrab.ToggleGrab(); // Melepas grab
+            getObjekInGrab.SetReference(null); // Menghapus referensi grab
+
+            // Jika objek yang sedang di-grab sama dengan currentGrabObject, reset currentGrabObject
+            if (getObjekInGrab == currentGrabObject)
+            {
+                currentGrabObject = null;
+            }
+        }
+    }
+    public void HandleInteract()
+    {
         // Interaksi dengan pintu
         if (canOpenDoor && currentDoor != null)
         {

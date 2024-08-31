@@ -27,6 +27,7 @@ public class PlayerInteract : MonoBehaviour
         // Mengaktifkan input actions dan mengikat tindakan Interact
         inputActions.Player.Enable();
         inputActions.Player.Interact.performed += OnInteractPerformed;
+        inputActions.Player.Object.performed += OnInteractObject;
     }
 
     void OnDisable()
@@ -34,6 +35,7 @@ public class PlayerInteract : MonoBehaviour
         // Menonaktifkan input actions
         inputActions.Player.Disable();
         inputActions.Player.Interact.performed -= OnInteractPerformed;
+        inputActions.Player.Object.performed -= OnInteractObject;
     }
 
     void Start()
@@ -49,6 +51,11 @@ public class PlayerInteract : MonoBehaviour
         interactionManager.PerformRaycast();
     }
 
+    private void OnInteractObject(InputAction.CallbackContext context)
+    {
+        // Handle additional interaction
+        interactionManager.HandleInteractObject();
+    }
     private void OnInteractPerformed(InputAction.CallbackContext context)
     {
         // Handle additional interaction
