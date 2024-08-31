@@ -6,12 +6,7 @@ public class NPCRandom : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
     GameObject aim_point;
-    PlayerMovement playerMovement;
     public Animator ani;
-
-    // [SerializeField] GameObject cameraSpeak;
-    // [SerializeField] GameObject virtualCam;
-    // [SerializeField] GameObject mainCam;
     [SerializeField] float timingSit;
 
     public bool execute_walking;
@@ -48,18 +43,7 @@ public class NPCRandom : MonoBehaviour
         stealing_position = new Vector3(0, 0.04185915f, -0.07200003f);
         stealing_Rotation = new Vector3(0, 180, 0);
 
-        // if (virtualCam == null)
-        // {
-        //     virtualCam = GameObject.Find("Virtual Camera");
-        // }
-        // if (mainCam == null)
-        // {
-        //     mainCam = GameObject.Find("Main Camera");
-        // }
-        // if (playerMovement == null)
-        // {
-        //     playerMovement = FindObjectOfType<PlayerMovement>();
-        // }
+        
         // way_points.Clear();
         // Sitting_points.Clear();
         // Stealing_points.Clear();
@@ -70,22 +54,7 @@ public class NPCRandom : MonoBehaviour
         // GameObject[] stealingpointsFind = GameObject.FindGameObjectsWithTag("stealingpoint");
         // GameObject[] pick_up_pointsFind = GameObject.FindGameObjectsWithTag("pickuppoint");
 
-        // foreach (GameObject g in waypointsFind)
-        // {
-        //     way_points.Add(g);
-        // }
-        // foreach (GameObject g in SittingpointsFind)
-        // {
-        //     Sitting_points.Add(g);
-        // }
-        // foreach (GameObject g in stealingpointsFind)
-        // {
-        //     Stealing_points.Add(g);
-        // }
-        // foreach (GameObject g in pick_up_pointsFind)
-        // {
-        //     pick_up_points.Add(g);
-        // }
+        
     }
 
     bool in_sitting;
@@ -340,32 +309,6 @@ public class NPCRandom : MonoBehaviour
             }
         }
     }
-    // public void LookAtPlayer(Transform player)
-    // {
-    //     if (!isNotRandom)
-    //     {
-    //         cameraSpeak.SetActive(true);
-    //         virtualCam.SetActive(false);
-    //         // Hentikan NPC
-    //         agent.isStopped = true;
-    //         isNotRandom = true;
-    //         // Rotasi NPC untuk menghadap ke pemain hanya di sumbu Y
-    //         Vector3 direction = (player.position - transform.position).normalized;
-    //         direction.y = 0; // Hanya sumbu Y yang diubah
-    //         transform.rotation = Quaternion.LookRotation(direction);
-
-    //         ani.SetInteger("arms", 5);
-    //         ani.SetInteger("legs", 5);
-    //     }
-    // }
-    // public void RandomAgain()
-    // {
-    //     cameraSpeak.SetActive(false);
-    //     virtualCam.SetActive(true);
-    //     playerMovement.SetCanMove(true);
-    //     isNotRandom = false;
-    //     agent.isStopped = false;
-    // }
 
     public List<GameObject> way_points = new List<GameObject>();
     public List<GameObject> Sitting_points = new List<GameObject>();
