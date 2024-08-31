@@ -85,7 +85,7 @@ public class InteractionManager
             canInteractWithNPC = false;
             currentNPC = null;
 
-            if (hit.collider.CompareTag("NPC"))
+            if (hit.collider.CompareTag("NPCRandom"))
             {
                 textMesh.text = "[E]";
 
@@ -114,8 +114,6 @@ public class InteractionManager
             }
         }
     }
-
-    private bool npcInteractionInProgress = false; // Tambahkan variabel ini untuk melacak status interaksi dengan NPC
 
     public void HandleInteractObject()
     {
@@ -152,23 +150,11 @@ public class InteractionManager
             currentDoor.ActionDoor();
         }
 
-        // Interaksi dengan NPC
-        if (canInteractWithNPC && currentNPC != null)
+        // Interaksi dengan NPC Random
+        if (canInteractWithNPC && currentNPC != null && playerMovement.GetCanMove())
         {
-            if (!npcInteractionInProgress)
-            {
-                // Interaksi pertama: NPC menghadap pemain dan pemain tidak bisa bergerak
-                currentNPC.LookAtPlayer(cam);
-                playerMovement.SetCanMove(false);
-                npcInteractionInProgress = true; // Tandai bahwa interaksi sedang berlangsung
-            }
-            else
-            {
-                // Interaksi kedua: Mengembalikan kontrol pergerakan pemain dan memulai kembali aktivitas NPC secara acak
-                playerMovement.SetCanMove(true);
-                currentNPC.RandomAgain();
-                npcInteractionInProgress = false; // Reset status interaksi
-            }
+            currentNPC.LookAtPlayer(cam);
+            playerMovement.SetCanMove(false);
         }
 
         //Interaksi dengan PC Player

@@ -51,11 +51,13 @@ public class PlayerInteract : MonoBehaviour
         interactionManager.PerformRaycast();
     }
 
+    //Interaksi untuk object grab saja dengan LEFT_MOUSE
     private void OnInteractObject(InputAction.CallbackContext context)
     {
         // Handle additional interaction
         interactionManager.HandleInteractObject();
     }
+    //Interaksi untuk environment dan NPC dengan E Keyboard
     private void OnInteractPerformed(InputAction.CallbackContext context)
     {
         // Handle additional interaction

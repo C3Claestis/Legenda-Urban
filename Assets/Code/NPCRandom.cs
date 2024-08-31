@@ -5,9 +5,13 @@ using UnityEngine.AI;
 public class NPCRandom : MonoBehaviour
 {
     NavMeshAgent agent;
+    GameObject aim_point;
+    PlayerMovement playerMovement;
     public Animator ani;
-    public GameObject aim_point;
 
+    [SerializeField] GameObject cameraSpeak;
+    [SerializeField] GameObject virtualCam;
+    [SerializeField] GameObject mainCam;
     [SerializeField] float timingSit;
 
     public bool execute_walking;
@@ -44,6 +48,18 @@ public class NPCRandom : MonoBehaviour
         stealing_position = new Vector3(0, 0.04185915f, -0.07200003f);
         stealing_Rotation = new Vector3(0, 180, 0);
 
+        if (virtualCam == null)
+        {
+            virtualCam = GameObject.Find("Virtual Camera");
+        }
+        if (mainCam == null)
+        {
+            mainCam = GameObject.Find("Main Camera");
+        }
+        if (playerMovement == null)
+        {
+            playerMovement = FindObjectOfType<PlayerMovement>();
+        }
         // way_points.Clear();
         // Sitting_points.Clear();
         // Stealing_points.Clear();
@@ -328,6 +344,8 @@ public class NPCRandom : MonoBehaviour
     {
         if (!isNotRandom)
         {
+            cameraSpeak.SetActive(true);
+            virtualCam.SetActive(false);
             // Hentikan NPC
             agent.isStopped = true;
             isNotRandom = true;
@@ -342,6 +360,9 @@ public class NPCRandom : MonoBehaviour
     }
     public void RandomAgain()
     {
+        cameraSpeak.SetActive(false);
+        virtualCam.SetActive(true);
+        playerMovement.SetCanMove(true);
         isNotRandom = false;
         agent.isStopped = false;
     }
