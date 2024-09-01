@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class NPCTalkManager : MonoBehaviour
 {
+    [SerializeField] GameObject cameraSpeak;
+    [SerializeField] NPCAction nPCAction;
     PlayerMovement playerMovement;
     Quaternion initialRotation;
     NPCRandom nPCRandom;
-    [SerializeField] GameObject cameraSpeak;
-    [SerializeField] GameObject virtualCam;
-    [SerializeField] GameObject mainCam;
+    GameObject virtualCam;
+    GameObject mainCam;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +30,7 @@ public class NPCTalkManager : MonoBehaviour
         {
             playerMovement = FindObjectOfType<PlayerMovement>();
         }
-
+       
         initialRotation = transform.rotation;
     }
 
@@ -41,6 +42,7 @@ public class NPCTalkManager : MonoBehaviour
             {
                 cameraSpeak.SetActive(true);
                 virtualCam.SetActive(false);
+                nPCAction.SetActive(false);
                 // Hentikan NPC
                 nPCRandom.agent.isStopped = true;
                 nPCRandom.isNotRandom = true;
@@ -57,6 +59,7 @@ public class NPCTalkManager : MonoBehaviour
         {
             cameraSpeak.SetActive(true);
             virtualCam.SetActive(false);
+            nPCAction.SetActive(false);
             // Rotasi NPC untuk menghadap ke pemain hanya di sumbu Y
             Vector3 direction = (player.position - transform.position).normalized;
             direction.y = 0; // Hanya sumbu Y yang diubah
@@ -78,5 +81,6 @@ public class NPCTalkManager : MonoBehaviour
         cameraSpeak.SetActive(false);
         virtualCam.SetActive(true);
         playerMovement.SetCanMove(true);
+        nPCAction.SetActive(true);
     }
 }
