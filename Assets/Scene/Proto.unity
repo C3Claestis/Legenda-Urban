@@ -7334,7 +7334,6 @@ MonoBehaviour:
   playerMovement: {fileID: 825910052}
   direction: 2.5
   cam: {fileID: 377845270}
-  crosshair: {fileID: 1979549989}
   textMesh: {fileID: 978741009}
   grab: {fileID: 1957232682}
 --- !u!114 &825910051

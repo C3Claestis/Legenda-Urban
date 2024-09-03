@@ -5,7 +5,6 @@ public class InteractionManager
 {
     private float direction;
     private Transform cam;
-    private GameObject crosshair;
     private TextMeshProUGUI textMesh;
     private GrabObject currentGrabObject;
     private Door currentDoor;
@@ -20,11 +19,10 @@ public class InteractionManager
     private PlayerInteract playerInteract;
     private PlayerMovement playerMovement;
 
-    public InteractionManager(float direction, Transform cam, GameObject crosshair, TextMeshProUGUI textMesh, PlayerInteract playerInteract, PlayerMovement playerMovement, Transform grab)
+    public InteractionManager(float direction, Transform cam, TextMeshProUGUI textMesh, PlayerInteract playerInteract, PlayerMovement playerMovement, Transform grab)
     {
         this.direction = direction;
         this.cam = cam;
-        this.crosshair = crosshair;
         this.textMesh = textMesh;
         this.playerInteract = playerInteract;
         this.playerMovement = playerMovement;

@@ -7,7 +7,6 @@ public class PlayerInteract : MonoBehaviour
     [Header("Player Movement Referensi")][SerializeField] private PlayerMovement playerMovement; // Referensi ke Playermove
     [Header("Jangkauan Raycast")][Range(0.1f, 5.0f)][SerializeField] private float direction = 2.5f;
     [Header("Camera Referensi")][SerializeField] private Transform cam; // Referensi ke Kamera
-    [Header("Crosshair Raycast")][SerializeField] private GameObject crosshair;
     [Header("Text Object Raycast")][SerializeField] private TextMeshProUGUI textMesh;
     [Header("Referensi Grab Raycast")] [SerializeField] Transform grab;
     private PlayerInputActions inputActions;
@@ -17,7 +16,7 @@ public class PlayerInteract : MonoBehaviour
     {
         // Inisialisasi input actions
         inputActions = new PlayerInputActions();
-        interactionManager = new InteractionManager(direction, cam, crosshair, textMesh, this, playerMovement, grab);
+        interactionManager = new InteractionManager(direction, cam, textMesh, this, playerMovement, grab);
         SetInteractionManager(interactionManager);
         interactionManager.SetPlayerInteract(this);
     }
