@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe16b7671be79644921e638d6a76453, type: 3}
+  m_Name: manajemen 1
+  m_EditorClassIdentifier: 
+  dialogEntries:
+  - text_dialog:
+    - Sibuk bat nih, kaya hidup guwe
+    - Kaga bisa apa libur 1 tahun gitu
+    - Ngapain lu?
+    hasChoices: 1
+    choices:
+    - choiceText: Kaga, cuman lewat doang
+      nextDialog: {fileID: 11400000, guid: a412865880dd23149a20b60ffb74a438, type: 2}
+    - choiceText: Suram amat idup lu bang wkwkwk
+      nextDialog: {fileID: 11400000, guid: 50fc18b2e290a334b8ffa7a970fd093b, type: 2}

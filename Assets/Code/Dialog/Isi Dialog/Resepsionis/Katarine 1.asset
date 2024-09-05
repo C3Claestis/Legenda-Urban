@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe16b7671be79644921e638d6a76453, type: 3}
+  m_Name: Katarine 1
+  m_EditorClassIdentifier: 
+  dialogEntries:
+  - text_dialog:
+    - Halo Saya katarine kw dari kikir impek, gimana kabar lu?
+    - Kalo gak ada kerjaan jangan kesini dah
+    - Buang buang waktu w bae
+    hasChoices: 1
+    choices:
+    - choiceText: Okey bang emang lu banget dah
+      nextDialog: {fileID: 11400000, guid: 63c1be4c0eedf9e46bd4b58a4f852afc, type: 2}
+    - choiceText: Gak gitu juga kali
+      nextDialog: {fileID: 11400000, guid: 47dc687ce144a66488a2aff6b57f956d, type: 2}
