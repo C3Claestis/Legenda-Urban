@@ -43,6 +43,10 @@ public class InteractionManager
         currentGrabObject = null;
         currentDoor = null;
 
+        // Reset referensi NPC sebelum raycast dilakukan
+        canInteractWithNPC = false;
+        currentNPC = null;
+
         // Membuat ray dari titik tengah layar menggunakan arah kamera
         Ray ray = new Ray(cam.position, cam.forward);
         RaycastHit hit;
@@ -79,15 +83,12 @@ public class InteractionManager
                     currentDoor = door;
                 }
             }
-            // Reset referensi NPC saat raycast dilakukan
-            canInteractWithNPC = false;
-            currentNPC = null;
 
             if (hit.collider.CompareTag("NPCRandom") || hit.collider.CompareTag("NPC"))
             {
                 textMesh.text = "[E]";
 
-                // Mendapatkan referensi ke NPCRandom script
+                // Mendapatkan referensi ke NPCTalkManager script
                 NPCTalkManager npc = hit.collider.GetComponent<NPCTalkManager>();
                 if (npc != null)
                 {
@@ -95,8 +96,6 @@ public class InteractionManager
                     currentNPC = npc; // Simpan referensi NPC
                 }
             }
-
-            canOpenPC = false;
 
             if (hit.collider.gameObject.name == "PC-Player")
             {
@@ -113,6 +112,31 @@ public class InteractionManager
         }
     }
 
+    public void HandleInteract()
+    {
+        // Interaksi dengan pintu
+        if (canOpenDoor && currentDoor != null)
+        {
+            currentDoor.ActionDoor();
+        }
+
+        // Interaksi dengan NPC Random
+        if (canInteractWithNPC && currentNPC != null && playerMovement.GetCanMove())
+        {
+            currentNPC.LookAtPlayer(cam);
+            playerMovement.SetCanMove(false);
+
+            // Reset interaksi NPC setelah berinteraksi
+            canInteractWithNPC = false;
+            currentNPC = null;
+        }
+
+        //Interaksi dengan PC Player
+        if (canOpenPC && pCPlayer != null)
+        {
+            pCPlayer.SetActive(true);
+        }
+    }
     public void HandleInteractObject()
     {
         // Interaksi dengan objek yang bisa di-grab
@@ -140,29 +164,6 @@ public class InteractionManager
             }
         }
     }
-    public void HandleInteract()
-    {
-        // Interaksi dengan pintu
-        if (canOpenDoor && currentDoor != null)
-        {
-            currentDoor.ActionDoor();
-        }
-
-        // Interaksi dengan NPC Random
-        if (canInteractWithNPC && currentNPC != null && playerMovement.GetCanMove())
-        {
-            currentNPC.LookAtPlayer(cam);
-            playerMovement.SetCanMove(false);
-        }
-
-        //Interaksi dengan PC Player
-        if (canOpenPC && pCPlayer != null)
-        {
-            pCPlayer.SetActive(true);
-        }
-    }
-
-
     public void SetPlayerInteract(PlayerInteract playerInteract)
     {
         this.playerInteract = playerInteract;

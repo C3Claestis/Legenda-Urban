@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe16b7671be79644921e638d6a76453, type: 3}
+  m_Name: Kitchen
+  m_EditorClassIdentifier: 
+  dialogEntries:
+  - text_dialog:
+    - Mao makan paan lu? Gue masakin nih
+    hasChoices: 1
+    choices:
+    - choiceText: Udang rebon
+      nextDialog: {fileID: 11400000, guid: 2a7782cfb6e95ee4b83d7224cb986088, type: 2}
+    - choiceText: Nasi uduk
+      nextDialog: {fileID: 11400000, guid: 70f034b494b538c41868d15ca0fb7e27, type: 2}
+    - choiceText: Paha milf
+      nextDialog: {fileID: 11400000, guid: 6c5c5854eb42c6948947fbb5b5d81686, type: 2}
